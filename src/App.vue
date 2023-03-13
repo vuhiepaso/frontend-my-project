@@ -9,32 +9,22 @@
       <el-button type="warning">Warning</el-button>
       <el-button type="danger">Danger</el-button>
     </el-row>
-
-    <el-row class="mb-4">
-      <el-button plain>Plain</el-button>
-      <el-button type="primary" plain>Primary</el-button>
-      <el-button type="success" plain>Success</el-button>
-      <el-button type="info" plain>Info</el-button>
-      <el-button type="warning" plain>Warning</el-button>
-      <el-button type="danger" plain>Danger</el-button>
-    </el-row>
-    sssssssssssssssssss
-    <div>
-      <a href="https://vitejs.dev" target="_blank">
-        <img src="/vite.svg" class="logo" alt="Vite logo" />
-      </a>
-      <a href="https://vuejs.org/" target="_blank">
-        <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-      </a>
-    </div>
   </div>
-  <!-- ssssssssssss
-  <HelloWorld msg="Vite + Vue" />
-  sssssssssss -->
+  <ul class="nav">
+    <li>
+      <router-link to="/">Home</router-link>
+    </li>
+    <li>
+      <router-link to="/login">About</router-link>
+    </li>
+  </ul>
+  ssss
+  <router-view></router-view>
+  <!-- <HelloWorld :msg="'123'"></HelloWorld> -->
 </template>
 
 <script setup lang="ts">
-import HelloWorld from "./components/HelloWorld.vue";
+// import HelloWorld from "./components/HelloWorld.vue";
 </script>
 
 <style scoped>
