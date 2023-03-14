@@ -10,22 +10,23 @@
       <el-button type="danger">Danger</el-button>
     </el-row>
   </div>
-  <ul class="nav">
+  <ul class="">
     <li>
       <router-link to="/">Home</router-link>
     </li>
+    ssssss
     <li>
       <router-link to="/login">About</router-link>
     </li>
+    sssss
+    <li>
+      <router-link to="/product/aa">Product</router-link>
+    </li>
   </ul>
-  ssss
   <router-view></router-view>
-  <!-- <HelloWorld :msg="'123'"></HelloWorld> -->
 </template>
 
-<script setup lang="ts">
-// import HelloWorld from "./components/HelloWorld.vue";
-</script>
+<script setup lang="ts"></script>
 
 <style scoped>
 .logo {
