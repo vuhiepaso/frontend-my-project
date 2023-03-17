@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "./views/Home.vue";
 import Login from "./views/Login.vue";
 import ProductDetail from "./views/ProductDetail.vue";
-import Login from "./views/Login.vue";
 import HelloWorld from "./components/HelloWorld.vue";
 const router = createRouter({
   history: createWebHistory(),
