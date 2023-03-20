@@ -9,6 +9,7 @@ import { createPinia } from "pinia";
 //library config
 import router from "./router";
 import axios from "./plugins/axios";
+import auth from "./plugins/auth";
 
 // css
 import "./style.css";
@@ -16,6 +17,7 @@ import "element-plus/dist/index.css";
 
 createApp(App)
   .use(createPinia())
+  .use(auth)
   .use(ElementPlus)
   .use(router)
   .use(VueAxios, axios)

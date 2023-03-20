@@ -2,9 +2,9 @@ import { useErrorStore } from "../store/useError";
 import router from "../router";
 import axios from "axios";
 
-axios.defaults.baseURL = "http://localhost:8000/";
-axios.defaults.headers.common["Authorization"] = localStorage.getItem("token");
+axios.defaults.baseURL = "http://192.168.248.37:8000/";
 axios.defaults.withCredentials = true;
+axios.defaults.headers.common["Authorization"] = localStorage.getItem("token");
 
 axios.interceptors.request.use(
   function (config) {
