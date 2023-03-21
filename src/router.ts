@@ -1,25 +1,46 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Home from "./views/Home.vue";
-import Login from "./views/Login.vue";
-import ProductDetail from "./views/ProductDetail.vue";
-import HelloWorld from "./components/HelloWorld.vue";
+import { useAuthStore } from "./store/useAuth";
+
+const redirectToHomeOnLoggedIn = (to: any, from: any, next: any) => {
+  if (useAuthStore().loggedIn) next({ name: "Home" });
+  else next();
+};
+
 const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
       path: "/",
       name: "Home",
-      component: Home,
+      component: () => import("./views/Home.vue"),
+      meta: { requireAuth: false },
       children: [
         {
           path: "/product/:id",
-          component: ProductDetail,
+          component: () => import("./views/ProductDetail.vue"),
         },
       ],
     },
-    { path: "/hello", name: "hello", component: HelloWorld },
-    { path: "/login", name: "Login", component: Login },
+
+    {
+      path: "/login",
+      name: "Login",
+      component: () => import("./views/Login.vue"),
+      beforeEnter: redirectToHomeOnLoggedIn,
+      meta: { layout: "loggedIn" },
+    },
+
+    {
+      path: "/:pathMatch(.*)*",
+      component: () => import("./views/404.vue"),
+      meta: { layout: "loggedIn" },
+    },
   ],
+});
+router.beforeEach((to: any, from: any, next: any) => {
+  if (to.meta.requireAuth && !useAuthStore().loggedIn) {
+    next({ name: "Login" });
+  } else next();
 });
 
 export default router;

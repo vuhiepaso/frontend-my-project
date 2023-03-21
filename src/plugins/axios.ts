@@ -2,9 +2,9 @@ import { useErrorStore } from "../store/useError";
 import router from "../router";
 import axios from "axios";
 
-axios.defaults.baseURL = "http://192.168.248.37:8000/";
+axios.defaults.baseURL = "http://localhost:8000/";
 axios.defaults.withCredentials = true;
-axios.defaults.headers.common["Authorization"] = localStorage.getItem("token");
+axios.defaults.headers.common["Authorization"] = localStorage?.getItem("token");
 
 axios.interceptors.request.use(
   function (config) {
@@ -28,7 +28,7 @@ axios.interceptors.response.use(
     switch (error.response.status) {
       case 401:
         localStorage.removeItem("token");
-        window.location.reload();
+        // window.location.reload();
         break;
       case 403:
       case 404:

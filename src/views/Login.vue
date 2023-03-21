@@ -1,31 +1,28 @@
 <template>
-  <h3 class="text-3xl txt-login">LOGIN</h3>
-  <div class="mt-1 text-left">
-    <p>Email:</p>
-    <el-input v-model="email" placeholder="Email" />
+  <div class="box-login">
+    <h3 class="text-3xl txt-login">LOGIN</h3>
+    <div class="mt-1 text-left">
+      <p>Email:</p>
+      <el-input v-model="email" placeholder="Email" />
+    </div>
+    <div class="mt-1 text-left">
+      <p>Password:</p>
+      <el-input
+        v-model="password"
+        type="password"
+        show-password
+        placeholder="Password"
+      />
+    </div>
+    <el-button @click="onClick" type="danger" class="mt-4">Login</el-button>
   </div>
-  <div class="mt-1 text-left">
-    <p>Password:</p>
-    <el-input
-      v-model="password"
-      type="password"
-      show-password
-      placeholder="Password"
-    />
-  </div>
-  <el-button @click="onClick" type="danger" class="mt-4">Login</el-button>
-  <el-button @click="getData" type="danger" class="mt-4"
-    >log accounts</el-button
-  >
 </template>
 
 <script lang="ts" setup>
 import { ref } from "vue";
 import { useAuthStore } from "../store/useAuth";
-import axios from "axios";
-import { useRouter, useRoute } from "vue-router";
+import { useRouter } from "vue-router";
 
-let color: string = "red";
 const router = useRouter();
 
 // declaration of variables
@@ -46,15 +43,15 @@ function onClick() {
       console.log("loading");
     });
 }
-
-const getData = async () => {
-  const data = (await axios.get("accounts")).data;
-  console.log(data);
-};
 </script>
 
-<style>
+<style scoped>
 .txt-login {
-  color: v-bind(color);
+  color: red;
+}
+.box-login {
+  background-color: rgba(112, 112, 107, 0.493);
+  padding: 20px;
+  border-radius: 8px;
 }
 </style>
