@@ -22,9 +22,9 @@
 import { ref } from "vue";
 import { useAuthStore } from "../store/useAuth";
 import { useRouter } from "vue-router";
+import { ElMessage } from "element-plus";
 
 const router = useRouter();
-
 // declaration of variables
 const email = ref<string>("hiepvd@vmodeval.com");
 const password = ref<string>("Aa@12345");
@@ -37,10 +37,15 @@ function onClick() {
   useAuthStore()
     .login(data)
     .then(function () {
+      ElMessage({
+        message: "Login successfully !",
+        type: "success",
+      });
       router.push("/");
     })
-    .catch(() => {
-      console.log("loading");
+    .catch((error) => {
+      ElMessage.error(error.response.data.message);
+      console.log("err", error);
     });
 }
 </script>

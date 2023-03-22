@@ -32,7 +32,7 @@ axios.interceptors.response.use(
         break;
       case 403:
       case 404:
-        console.log(error);
+        // console.log(error);
         // router.push({
         //   name: "error",
         //   //   props: {
@@ -47,7 +47,7 @@ axios.interceptors.response.use(
         useErrorStore().$state = error.response.data;
         break;
       default:
-        console.log(error.response.data);
+      // console.log(error.response.data);
     }
 
     return Promise.reject(error);
