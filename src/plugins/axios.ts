@@ -12,12 +12,14 @@ axios.interceptors.request.use(
   },
   function (error) {
     // Do something with request error
+    console.log("ok");
     return Promise.reject(error);
   }
 );
 
 axios.interceptors.response.use(
   function (response) {
+    console.log("ok1");
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
     return response;
@@ -25,6 +27,7 @@ axios.interceptors.response.use(
   function (error) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
+    console.log(error.response.data);
     switch (error.response.status) {
       case 401:
         localStorage.removeItem("token");

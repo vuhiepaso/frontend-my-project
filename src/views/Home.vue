@@ -1,11 +1,11 @@
 <template>
   <h1>HOMEss</h1>
-  ss
-  <TextInput></TextInput>
-  s
-  <div v-for="(item, index) in listAccount" :key="index">
+
+  <TextInput v-model="modelValue" />
+  modelValue: {{ modelValue }}
+  <!-- <div v-for="(item, index) in listAccount" :key="index">
     <p>{{ item.email }}</p>
-  </div>
+  </div> -->
 </template>
 <script lang="ts" setup>
 import axios from "axios";
@@ -25,4 +25,6 @@ onMounted(async () => {
     console.error(error);
   }
 });
+
+const modelValue = ref("");
 </script>
