@@ -11,22 +11,27 @@
 <script setup lang="ts">
 import { defineProps, defineEmits, toRef } from "vue";
 import { useField } from "vee-validate";
-import * as yup from "yup";
+import ruleInput from "../../rule/ruleInput";
 const emit = defineEmits(["update:modelValue"]);
 
+type OnlyKeys = keyof typeof ruleInput;
 const props = defineProps({
   modelValue: {
     type: String,
     required: true,
   },
+  rule: {
+    type: String as () => OnlyKeys,
+    default: "required",
+  },
 });
 const valueProps = toRef(props, "modelValue");
 
-const rule = yup.string().required("thông tin không được thiêu").min(8);
-
-const { errorMessage } = useField(valueProps, rule);
+const { errorMessage } = useField(valueProps, ruleInput[props.rule]);
 
 const updateValue = (value: string) => {
   emit("update:modelValue", value);
 };
 </script>
+
+<!-- <TextInput rule="required" /> -->
