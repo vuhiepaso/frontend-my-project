@@ -2,7 +2,6 @@
   <h1>HOMEss</h1>
 
   <TextInput v-model="modelValue" />
-  modelValue: {{ modelValue }}
   <!-- <div v-for="(item, index) in listAccount" :key="index">
     <p>{{ item.email }}</p>
   </div> -->
@@ -26,5 +25,5 @@ onMounted(async () => {
   }
 });
 
-const modelValue = ref("");
+const modelValue = ref("ssss");
 </script>
