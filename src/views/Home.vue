@@ -1,10 +1,12 @@
 <template>
   <h1>HOMEss</h1>
-
-  <TextInput v-model="modelValue" />
-  <!-- <div v-for="(item, index) in listAccount" :key="index">
-    <p>{{ item.email }}</p>
-  </div> -->
+  <TextInput
+    :isActive="isActive"
+    title="Name"
+    rule="required"
+    v-model="modelValue"
+  />
+  <h1 @click="isActive = !isActive">sss</h1>
 </template>
 <script lang="ts" setup>
 import axios from "axios";
@@ -15,6 +17,7 @@ interface accounts {
   username: string;
 }
 let listAccount = ref<accounts[]>([]);
+let isActive = ref(true);
 
 onMounted(async () => {
   try {
@@ -25,5 +28,5 @@ onMounted(async () => {
   }
 });
 
-const modelValue = ref("ssss");
+const modelValue = ref("");
 </script>

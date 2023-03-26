@@ -2,8 +2,14 @@
   <div class="box-login">
     <h3 class="text-3xl txt-login">LOGIN</h3>
     <div class="mt-1 text-left">
-      <p>Email:</p>
-      <el-input v-model="email" placeholder="Email" />
+      <!-- <p>Email:</p>
+      <el-input v-model="email" placeholder="Email" /> -->
+      <TextInput
+        placeholder="Email"
+        title="Email:"
+        rule="required"
+        v-model="email"
+      />
     </div>
     <div class="mt-1 text-left">
       <p>Password:</p>
