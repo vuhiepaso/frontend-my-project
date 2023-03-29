@@ -16,6 +16,7 @@ const router = createRouter({
       meta: { requireAuth: false },
       children: [
         {
+          name: "product",
           path: "/product/:id",
           component: () => import("./views/ProductDetail.vue"),
         },
@@ -35,6 +36,12 @@ const router = createRouter({
       component: () => import("./views/Register.vue"),
       beforeEnter: redirectToHomeOnLoggedIn,
       meta: { requireAuth: false, layout: "loggedIn" },
+    },
+    {
+      path: "/equipment",
+      name: "Equipment",
+      component: () => import("./views/equipment/index.vue"),
+      meta: { requireAuth: false },
     },
 
     {

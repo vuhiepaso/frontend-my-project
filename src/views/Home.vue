@@ -1,11 +1,10 @@
 <template>
   <h1>HOMEss</h1>
-
-  <h1 @click="isActive = !isActive">sss</h1>
 </template>
 <script lang="ts" setup>
 import axios from "axios";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watchEffect } from "vue";
+import { useRoute } from "vue-router";
 interface accounts {
   email: string;
   isActive: boolean;
@@ -24,4 +23,12 @@ onMounted(async () => {
 });
 
 const modelValue = ref("");
+
+const route = useRoute();
+const activeIndex = ref();
+
+watchEffect(() => {
+  console.log(route);
+  activeIndex.value = route.name;
+});
 </script>
