@@ -1,8 +1,15 @@
 <template>
   <div>
     <div class="box-login">
-      <h3 class="text-3xl txt-login">LOGIN</h3>
+      <h3 class="text-3xl txt-login">REGISTER</h3>
       <div class="mt-1 text-left">
+        <TextInput
+          placeholder="User name"
+          title="User name:"
+          rule="required"
+          v-model="username"
+          :isActiveValidate="isActiveValidate"
+        />
         <TextInput
           placeholder="Email"
           title="Email:"
@@ -16,56 +23,55 @@
           placeholder="Password"
           title="Password:"
           type="password"
-          rule="required"
+          rule="password"
           v-model="password"
           :isActiveValidate="isActiveValidate"
         />
       </div>
-      <el-button @click="onClick" type="danger" class="mt-4">Login</el-button>
+      <el-button @click="onClick" type="danger" class="mt-4"
+        >Register</el-button
+      >
     </div>
     <div class="mt-1 text-left">
-      <RouterLink class="font-normal" to="/register">
-        Register account ?
-      </RouterLink>
+      <RouterLink class="font-normal" to="/login"> To page login </RouterLink>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from "vue";
-import { useAuthStore } from "../store/useAuth";
 import { useRouter } from "vue-router";
+import { register } from "../api/auth";
 import { ElMessage } from "element-plus";
-
 const router = useRouter();
 // declaration of variables
 const email = ref<string>("");
+const username = ref<string>("");
 const password = ref<string>("");
 const isActiveValidate = ref(false);
 
-function onClick() {
+async function onClick() {
   const data = {
     email: email.value,
     password: password.value,
+    username: username.value,
   };
   const checkRequired = Object.values(data).includes("");
   if (checkRequired) {
     isActiveValidate.value = true;
     return;
   }
-  useAuthStore()
-    .login(data)
-    .then(function () {
-      ElMessage({
-        message: "Login successfully !",
-        type: "success",
-      });
-      router.push("/");
-    })
-    .catch((error) => {
-      ElMessage.error(error.response.data.message);
-      console.log("err", error);
+  try {
+    const response = await register(data);
+    ElMessage({
+      message: "Register successfully !",
+      type: "success",
     });
+    router.push("/login");
+  } catch (error: any) {
+    console.error(error);
+    ElMessage.error(error.response.data.message);
+  }
 }
 </script>
 
@@ -77,6 +83,6 @@ function onClick() {
   background-color: rgba(112, 112, 107, 0.493);
   padding: 20px;
   border-radius: 8px;
-  width: 300px;
+  width: 400px;
 }
 </style>

@@ -1,21 +1,25 @@
 <template>
-  <div class="text-start">
+  <div class="text-start w-full box-input">
     <span :title="title">{{ title }}</span>
     <el-input
+      class="input-tex"
       :class="
         errorMessage?.length || (message?.length && !meta.valid)
           ? 'is-error'
           : ''
       "
       :model-value="modelValue"
+      :show-password="type === `password` ? true : false"
       @input="updateValue"
       :placeholder="placeholder"
       :type="type"
     />
-    <span v-if="errorMessage?.length" class="error-message">{{
-      errorMessage
-    }}</span>
-    <span v-else-if="!meta.valid" class="error-message">{{ message }}</span>
+    <div class="box-mess">
+      <span v-if="errorMessage?.length" class="error-message">{{
+        errorMessage
+      }}</span>
+      <span v-else-if="!meta.valid" class="error-message">{{ message }}</span>
+    </div>
   </div>
 </template>
 <script setup lang="ts">
@@ -39,7 +43,7 @@ const props = defineProps({
     default: "string",
     validator: (value: string) => Object.keys(ruleInput).includes(value),
   },
-  isActive: {
+  isActiveValidate: {
     type: Boolean,
     default: false,
   },
@@ -57,7 +61,7 @@ const updateValue = (value: string) => {
   emit("update:modelValue", value);
 };
 
-const isActiveProps = toRef(props, "isActive");
+const isActiveProps = toRef(props, "isActiveValidate");
 watch(isActiveProps, (newVal, oldVal) => {
   if (newVal) {
     validateInput();
@@ -65,16 +69,25 @@ watch(isActiveProps, (newVal, oldVal) => {
 });
 </script>
 <style scoped>
+.box-input {
+  margin-bottom: 17px;
+  position: relative;
+}
 .error-message {
   color: red;
+  font-size: 12px;
 }
-
+.box-mess {
+  line-height: 1;
+  position: absolute;
+  top: 100%;
+}
 :deep(.is-error .el-input__wrapper) {
   border: 1px solid red !important ;
-  box-shadow: 0 0 0 1px rgba(255, 0, 0, 0.293) inset;
-  background-color: rgba(255, 0, 0, 0);
+  box-shadow: 0 0 0 0.5px rgba(255, 0, 0, 0.293) inset;
+  box-shadow: none;
 }
 :deep(.is-error .el-input__wrapper.is-focus) {
-  box-shadow: 0 0 0 1px red inset;
+  box-shadow: none;
 }
 </style>

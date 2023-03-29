@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-header>
-      <h1 class="text-3xl txt-login">Login</h1>
+      <h1 class="text-3xl txt-login">{{ $route.name }}</h1>
     </el-header>
     <el-main>
       <div class="box-layout">

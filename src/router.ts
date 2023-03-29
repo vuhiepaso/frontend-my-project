@@ -26,8 +26,15 @@ const router = createRouter({
       path: "/login",
       name: "Login",
       component: () => import("./views/Login.vue"),
-      beforeEnter: redirectToHomeOnLoggedIn,
       meta: { layout: "loggedIn" },
+    },
+
+    {
+      path: "/register",
+      name: "Register",
+      component: () => import("./views/Register.vue"),
+      beforeEnter: redirectToHomeOnLoggedIn,
+      meta: { requireAuth: false, layout: "loggedIn" },
     },
 
     {
