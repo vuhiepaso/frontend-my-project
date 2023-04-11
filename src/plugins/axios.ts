@@ -12,14 +12,14 @@ axios.interceptors.request.use(
   },
   function (error) {
     // Do something with request error
-    console.log("ok");
+    // console.log("ok");
     return Promise.reject(error);
   }
 );
 
 axios.interceptors.response.use(
   function (response) {
-    console.log("ok1");
+    // console.log("ok1");
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
     return response;
@@ -31,6 +31,8 @@ axios.interceptors.response.use(
     switch (error.response.status) {
       case 401:
         localStorage.removeItem("token");
+        alert("401");
+        router.push("/login");
         // window.location.reload();
         break;
       case 403:
@@ -50,7 +52,6 @@ axios.interceptors.response.use(
         useErrorStore().$state = error.response.data;
         break;
       default:
-      // console.log(error.response.data);
     }
 
     return Promise.reject(error);

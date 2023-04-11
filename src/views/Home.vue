@@ -28,7 +28,7 @@ const route = useRoute();
 const activeIndex = ref();
 
 watchEffect(() => {
-  console.log(route);
+  // console.log(route);
   activeIndex.value = route.name;
 });
 </script>

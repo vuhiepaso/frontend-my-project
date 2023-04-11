@@ -4,6 +4,7 @@
       <el-header class="flex justify-between">
         <router-link :to="{ path: '/' }">
           <h3 class="text-3xl txt-login">MY-HOME</h3>
+          <p>{{ user.username }}</p>
         </router-link>
         <el-button v-if="isLogin" @click="logOut" type="danger"
           >logOut</el-button
@@ -20,6 +21,7 @@ import { useAuthStore } from "../store/useAuth";
 import { useRouter } from "vue-router";
 const router = useRouter();
 const isLogin = useAuthStore().loggedIn;
+const user: any = useAuthStore().user;
 function logOut() {
   useAuthStore().logout();
   router.push("/login");

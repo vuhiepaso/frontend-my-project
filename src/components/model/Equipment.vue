@@ -1,63 +1,82 @@
 <template>
-  <div class="box-item">
-    <div class="box-equipment e-tool text-end flex items-center justify-end">
-      <el-popconfirm
-        title="Are you sure to delete this?"
-        @cancel="isCaret = false"
-        @confirm="onRemove()"
-      >
-        <template #reference>
-          <el-icon class="cursor-pointer" color="red" :size="23"
-            ><Delete />
-          </el-icon>
-        </template>
-      </el-popconfirm>
-    </div>
-    <div class="box-equipment e-view">
-      <div class="flex items-center">
-        <el-switch v-model="value" @change="onchange(value)" />
+  <div class="container-item">
+    <div class="box-item">
+      <div class="box-equipment e-tool text-end flex items-center justify-end">
+        <el-popconfirm
+          title="Are you sure to delete this?"
+          @cancel="isCaret = false"
+          @confirm="onRemove()"
+        >
+          <template #reference>
+            <el-icon class="cursor-pointer" color="red" :size="23"
+              ><Delete />
+            </el-icon>
+          </template>
+        </el-popconfirm>
       </div>
+      <div
+        class="box-equipment e-view"
+        :style="`right: ${isCaret ? '50px' : '0'};
+  border: 5px solid ${equipment.status ? 'chartreuse' : 'grey'}`"
+      >
+        <div class="flex items-center">
+          <el-switch
+            v-model="equipment.status"
+            @change="onchange(equipment.status)"
+          />
+        </div>
 
-      <div class="text-2xl" v-if="isActivityEdit">
-        <span>{{ input }}</span>
+        <div class="text-2xl" v-if="isActivityEdit">
+          <span>{{ equipment.name }}</span>
 
+          <el-icon
+            v-role
+            :size="16"
+            @click="isActivityEdit = false"
+            class="cursor-pointer"
+            ><EditPen
+          /></el-icon>
+        </div>
+        <div v-else class="flex items-center mt-3">
+          <el-input
+            v-model="input"
+            placeholder="Name"
+            class="h-7 text-center"
+            @keyup.enter="updateName(input)"
+          />
+          <el-icon
+            class="cursor-pointer"
+            color="green"
+            @click="updateName(input)"
+            ><CircleCheck
+          /></el-icon>
+          <el-icon
+            color="red"
+            class="cursor-pointer"
+            @click="(isActivityEdit = true), (input = equipment.name)"
+            ><CircleClose
+          /></el-icon>
+        </div>
+        <div class="box-code">code: {{ equipment.id }}</div>
         <el-icon
+          v-role
+          @click="isCaret = !isCaret"
+          class="caret-lef cursor-pointer"
           :size="16"
-          @click="isActivityEdit = false"
-          class="cursor-pointer"
-          ><EditPen
-        /></el-icon>
+        >
+          <CaretLeft v-if="!isCaret" />
+          <CaretRight v-else />
+        </el-icon>
       </div>
-      <div v-else class="flex items-center mt-3">
-        <el-input v-model="input" placeholder="Name" class="h-7 text-center" />
-        <el-icon class="cursor-pointer" color="green" @click="updateName(input)"
-          ><CircleCheck
-        /></el-icon>
-        <el-icon
-          color="red"
-          class="cursor-pointer"
-          @click="isActivityEdit = true"
-          ><CircleClose
-        /></el-icon>
-      </div>
-      <div class="box-code">code: {{ equipment.id }}</div>
-      <el-icon
-        @click="isCaret = !isCaret"
-        class="caret-lef cursor-pointer"
-        :size="16"
-      >
-        <CaretLeft v-if="!isCaret" />
-        <CaretRight v-else />
-      </el-icon>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, defineProps, defineEmits } from "vue";
-import { remove } from "../../api/equipment";
+import { remove, update } from "../../api/equipment";
 import { ElMessage } from "element-plus";
-const emit = defineEmits(["onRemove"]);
+const emit = defineEmits(["onLoad"]);
 const props = defineProps({
   equipment: {
     default: {
@@ -72,18 +91,33 @@ const input = ref(props.equipment.name);
 const isActivityEdit = ref(true);
 const isCaret = ref(false);
 
-function updateName(value: string) {
-  console.log(value);
-  isActivityEdit.value = true;
+async function updateName(value: string) {
+  const { id } = props.equipment;
+  try {
+    await update(id, { name: value });
+    isActivityEdit.value = true;
+    emit("onLoad", { id });
+  } catch (error) {
+    ElMessage.error("Change status fail !");
+    console.error(error);
+  }
 }
-function onchange(value: any) {
-  console.log(value);
+async function onchange(value: any) {
+  const { id } = props.equipment;
+  try {
+    await update(id, { status: value });
+  } catch (error) {
+    emit("onLoad", { id });
+    ElMessage.error("Change status fail !");
+    console.error(error);
+  }
 }
 async function onRemove() {
   const { id } = props.equipment;
   try {
     await remove(id);
-    emit("onRemove", { id });
+    isCaret.value = false;
+    emit("onLoad", { id });
     ElMessage({
       message: "Remove successfully !",
       type: "success",
@@ -96,6 +130,9 @@ async function onRemove() {
 </script>
 
 <style scoped>
+.container-item {
+  height: 150px;
+}
 .box-item {
   position: fixed;
 }
@@ -124,7 +161,7 @@ async function onRemove() {
   background-color: white;
   position: absolute;
   top: 0;
-  right: v-bind('isCaret? "50px": "0"');
-  border: 5px solid v-bind('value? "chartreuse": "grey"');
+  /* right: v-bind('isCaret? "50px": "0"');
+  border: 5px solid v-bind('value? "chartreuse": "grey"'); */
 }
 </style>

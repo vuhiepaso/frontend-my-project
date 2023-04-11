@@ -22,6 +22,9 @@ import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import defaultLayout from "./layouts/default.vue";
 import loggedInLayout from "./layouts/loggedIn.vue";
 
+//directive
+import * as directives from "./directive";
+
 let app = createApp(App);
 
 app.use(createPinia());
@@ -31,6 +34,10 @@ app.use(ElementPlus);
 app.use(VueAxios, axios);
 app.component("default", defaultLayout);
 app.component("loggedIn", loggedInLayout);
+
+for (const [key, directive] of Object.entries(directives)) {
+  app.directive(key, directive);
+}
 
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component);

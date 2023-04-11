@@ -1,13 +1,23 @@
 <template>
-  <el-row :gutter="20">
+  <div class="pb-4 flex">
+    <el-input
+      placeholder="Name equipment"
+      @keyup.enter="appEquipment(inputName)"
+      v-model="inputName"
+    ></el-input>
+    <el-icon class="mx-4" :size="35" @click="appEquipment(inputName)"
+      ><CirclePlusFilled
+    /></el-icon>
+  </div>
+  <el-row v-loading="isLoading" :gutter="20">
     <el-col
       v-for="(equipment, index) in listEquipment"
       :key="index"
       :span="6"
       class="mb-5"
     >
-      <div style="height: 150px">
-        <Equipment @onRemove="onRemove" :equipment="equipment" />
+      <div>
+        <Equipment @onLoad="onLoad" :equipment="equipment" />
       </div>
     </el-col>
   </el-row>
@@ -15,20 +25,25 @@
 
 <script lang="ts" setup>
 import { ref, onMounted } from "vue";
-import { getList } from "../../api/equipment";
+import { getList, addNew } from "../../api/equipment";
 
 const listEquipment = ref([]);
+const inputName = ref("");
+const isLoading = ref(false);
 //call API
 async function listAPI() {
   try {
+    isLoading.value = true;
     const {
       data: { data },
     } = await getList();
-    if (data.length) {
+    if (data?.length) {
       listEquipment.value = data;
     }
   } catch (error) {
     console.error(error);
+  } finally {
+    isLoading.value = false;
   }
 }
 // On Mounted
@@ -36,7 +51,17 @@ onMounted(async () => {
   await listAPI();
 });
 // Feature
-function onRemove(data: any) {
+function onLoad(data: any) {
   listAPI();
+}
+async function appEquipment(name: string) {
+  try {
+    const data = await addNew({ name: name });
+    console.log(data);
+    inputName.value = "";
+    await listAPI();
+  } catch (error) {
+    console.log(error);
+  }
 }
 </script>
