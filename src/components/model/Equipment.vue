@@ -107,10 +107,10 @@ async function onchange(value: any) {
   try {
     await update(id, { status: value });
   } catch (error) {
-    emit("onLoad", { id });
     ElMessage.error("Change status fail !");
     console.error(error);
   }
+  emit("onLoad", { id });
 }
 async function onRemove() {
   const { id } = props.equipment;

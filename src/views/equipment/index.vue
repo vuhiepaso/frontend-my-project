@@ -24,8 +24,9 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import { getList, addNew } from "../../api/equipment";
+import { state, socket } from "../../socket/index";
 
 const listEquipment = ref([]);
 const inputName = ref("");
@@ -49,19 +50,30 @@ async function listAPI() {
 // On Mounted
 onMounted(async () => {
   await listAPI();
+  socket.connect();
 });
 // Feature
-function onLoad(data: any) {
-  listAPI();
-}
+function onLoad(data: any) {}
 async function appEquipment(name: string) {
   try {
     const data = await addNew({ name: name });
     console.log(data);
     inputName.value = "";
-    await listAPI();
   } catch (error) {
     console.log(error);
   }
 }
+
+socket.on("onEvents", (data: any) => {
+  listEquipment.value = data.data;
+  console.log("Received data from server:", data);
+});
+
+// function updateDate(value: any) {
+//   // socket.emit("events", value);
+// }
+
+onUnmounted(() => {
+  socket.disconnect();
+});
 </script>
