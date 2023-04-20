@@ -41,7 +41,7 @@ const router = createRouter({
       path: "/equipment",
       name: "Equipment",
       component: () => import("./views/equipment/index.vue"),
-      meta: { requireAuth: false },
+      meta: { requireAuth: true },
     },
 
     {

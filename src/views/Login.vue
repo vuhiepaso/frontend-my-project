@@ -39,8 +39,8 @@ import { ElMessage } from "element-plus";
 
 const router = useRouter();
 // declaration of variables
-const email = ref<string>("");
-const password = ref<string>("");
+const email = ref<string>("123@vmdodev.com");
+const password = ref<string>("Aa@12345");
 const isActiveValidate = ref(false);
 
 function onClick() {

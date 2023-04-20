@@ -83,6 +83,6 @@ async function onClick() {
   background-color: rgba(112, 112, 107, 0.493);
   padding: 20px;
   border-radius: 8px;
-  width: 400px;
+  max-width: 400px;
 }
 </style>

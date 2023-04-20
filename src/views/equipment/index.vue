@@ -1,5 +1,5 @@
 <template>
-  <div class="pb-4 flex">
+  <div class="pb-4 flex" v-role>
     <el-input
       placeholder="Name equipment"
       @keyup.enter="appEquipment(inputName)"
@@ -9,11 +9,14 @@
       ><CirclePlusFilled
     /></el-icon>
   </div>
-  <el-row v-loading="isLoading" :gutter="20">
+  <el-row v-loading="isLoading" :gutter="10">
     <el-col
       v-for="(equipment, index) in listEquipment"
       :key="index"
-      :span="6"
+      :xs="24"
+      :sm="12"
+      :md="8"
+      :lg="6"
       class="mb-5"
     >
       <div>
@@ -64,6 +67,7 @@ async function appEquipment(name: string) {
   }
 }
 
+//API WEB SOCKET
 socket.on("onEvents", (data: any) => {
   listEquipment.value = data.data;
   console.log("Received data from server:", data);

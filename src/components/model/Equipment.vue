@@ -27,7 +27,8 @@
         </div>
 
         <div class="text-2xl" v-if="isActivityEdit">
-          <span>{{ equipment.name }}</span>
+          <span v-if="equipment.name">{{ equipment.name }}</span>
+          <span v-else style="color: gray">{{ "Code: " + equipment.id }}</span>
 
           <el-icon
             v-role
@@ -132,9 +133,11 @@ async function onRemove() {
 <style scoped>
 .container-item {
   height: 150px;
+  display: flex;
+  justify-content: center;
 }
 .box-item {
-  position: fixed;
+  position: absolute;
 }
 .box-code {
   position: absolute;
